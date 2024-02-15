@@ -25,3 +25,39 @@ let updateTotalPrice = function () {
   let totalPrice = addedPricesArray.reduce(sum);
   $('#totalPrice').html(totalPrice);
 }
+
+// ********** DOCUMENT READY WRAPPER **********
+
+$(document).ready(function () {
+  updateTotalPrice();
+
+  $(document).on('click', '.btn.remove', function (event) {
+    $(this).closest('tr').remove();
+    updateTotalPrice();
+  });
+
+  $(document).on('change', '.priceInput, .quantityInput', function () {
+    updateAddedPrice($(this).closest('tr'));
+    updateTotalPrice();
+  });
+
+  $('#addItem').on('submit', function (event) {
+    event.preventDefault();
+    let newItem = $(this).find('[name=item]').val();
+    let newPrice = $(this).find('[name=price]').val();
+    let newQuantity = $(this).find('[name=quantity]').val() || 0;
+
+    $('tbody').append('<tr>' +
+      '<td class="item">' + newItem + '</td>' +
+      '<td class="price"><input class="priceInput" type="number" value="' + newPrice + '" /></td>' +
+      '<td class="quantity"><input class="quantityInput" type="number" value="' + newQuantity + '" /></td>' +
+      '<td class="addedPrice"></td>' +
+      '<td><button class="btn btn-sm remove">Remove</button></td>' +
+    '</tr>');
+
+    updateTotalPrice();
+    $(this).children('[name=item]').val('');
+    $(this).children('[name=price]').val('');
+    $(this).children('[name=quantity]').val('');
+  });
+});
