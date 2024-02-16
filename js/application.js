@@ -22,8 +22,8 @@ let updateTotalPrice = function () {
     addedPricesArray.push(addedPrice);
   });
 
-  let totalPrice = addedPricesArray.reduce(sum);
-  $('#totalPrice').html(totalPrice);
+  let totalPrice = addedPricesArray.length > 0 ? addedPricesArray.reduce(sum) : 0;
+  $('#totalPrice').html(totalPrice.toFixed(2));
 }
 
 // ********** DOCUMENT READY WRAPPER **********
